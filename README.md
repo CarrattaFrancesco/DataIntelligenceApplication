@@ -1,29 +1,23 @@
-This project exploits data intelligence application algorithms of pricing and social influence field in a fictitious scenario
+Scenario. Consider the scenario in which advertisement is used to attract users on an ecommerce website and the users, after the purchase of the first unit of a consumable item, will buy additional units of the same item in future. The goal is to find the best joint bidding and pricing strategy taking into account future purchases.
 
-## Project
+Environment. Imagine a consumable item (for which we have an infinite number of units) and two binary features. Imagine three classes of customers C1, C2, C3, each corresponding to a subspace of the features’ space. Each customers’ class is characterized by:
+a stochastic number of daily clicks of new users (i.e., that have never clicked before these ads) as a function depending on the bid;
+a daily stochastic cost per click as a function of the bid;
+a conversion rate function providing the probability that a user will buy the item given a price;
+a distribution probability over the number of times the user will come back to the ecommerce website to buy that item by 30 days after the first purchase (and simulate such visits in future).
+Every price available is associated with a margin obtained by the sale that is known beforehand. Do not need to simulate the functioning of the auctions and the other advertisers.
 
-The goal is modeling a scenario in which a seller is pricing some products and spends a given budget on social networks to persuade more and more nodes to buy the products, thus artificially increasing the demand. The seller needs to learn both some information on the social networks and the conversion rate curves.
+Steps. You need to complete the following steps.
+Formulate the objective function when assuming that, once a user makes a purchase with a price p, then the ecommerce will propose the same price p to future visits of the same user and this user will surely buy the item. The revenue function must take into account the cost per click, while there is no budget constraint. Provide an algorithm to find the best joint bidding/pricing strategy and describe its complexity in the number of values of the bids and prices available (assume here that the values of the parameters are known). In the following Steps, assume that the number of bid values are 10 as well as the number of price values.
+Consider the online learning version of the above optimization problem when the parameters are not known. Identify the random random variables, potential delays in the feedback, and choose a model for each of them when a round corresponds to a single day. Consider a time horizon of one year.
+Consider the case in which the bid is fixed and learn in online fashion the best pricing strategy when the algorithm does not discriminate among the customers’ classes (and therefore the algorithm works with aggregate data). Assume that the number of daily clicks and the daily cost per click are known. Adopt both an upper-confidence bound approach and a Thompson-sampling approach and compare their performance.
+Do the same as Step 3 when instead a context-generation approach is adopted to identify the classes of customers and adopt a potentially different pricing strategy per class. In doing that, evaluate the performance of the pricing strategies in the different classes only at the optimal solution (e.g., if prices that are not optimal for two customers’ classes provide different performance, you do not split the contexts). Let us remark that no discrimination of the customers’ classes is performed at the advertising level. From this Step on, choose one approach between the upper-confidence bound one and the Thompson-sampling one.
+Consider the case in which the prices are fixed and learn in online fashion the best bidding strategy when the algorithm does not discriminate among the customers’ classes. Assume that the conversion probability is known. However, we need to guarantee some form of safety to avoid the play of arms that provide a negative revenue with a given probability. This can be done by estimating the probability distribution over the revenue for every arm and making an arm eligible only when the probability to have a negative revenue is not larger than a threshold (e.g., 20%). Apply this safety constraint after 10 days to avoid that the feasible set of arms is empty, while in the first 10 days choose the arm to pull with uniform probability. Do not discriminate over the customers’ classes.
+Consider the general case in which one needs to learn the joint pricing and bidding strategy under the safety constraint introduced in Step 5. Do not discriminate over the customers’ classes both for advertising and pricing.
+Do the same as Step 6 when instead discriminating over the customers’ classes for both advertising and pricing. In doing that, adopt the context structure already discovered in Step 4.
 
-Imagine:
+Duties. You are required to:
+Produce the Python code.
+Produce a technical report describing the environment, the algorithms and the plot representing the regret and the reward of every algorithm. Provide also a practical application motivating the scenario.
+Produce a presentation as a summary of the technical report.
 
-- three products to sell, each with an infinite number of units, in a time horizon T ; 
-
-- three social networks composed of thousands of nodes, such that each social network is used to sell a different product;
-
-- the activation probabilities of the edges of the social networks are linear functions in the values of the features (>3), potentially different in the three social networks;
-
-- three seasonal phases such that the transitions from a phase to the subsequent one are abrupt;
-
-- a conversion rate curve for each social network and each phase, returning the probability that a generic node of the social network buys a product (notice that the phases affect the conversion rate curve, but not the activation probabilities of the social networks).
-
-1. Design an algorithm maximizing the social influence in every single social network once a budget, for that specific social network, is given. Plot the approximation error as the parameters of the algorithms vary for every specific network.
-
-2. Design a greedy algorithm such that, given a cumulative budget to perform jointly social influence in the three social networks, finds the best allocation of the budget over the three social networks to maximize the cumulative social influence. Plot the approximation error as the parameters of the algorithms vary for every specific network.
-
-3. Apply a combinatorial bandit algorithm to the situation in which the activation probabilities are not known and we can observe the activation of the edges. Plot the cumulative regret as time increases. 
-
-4. Design a learning pricing algorithm to maximize the cumulative revenue and apply it, together with the algorithm to make social influence, to the case in which the activation probabilities are known. In doing that, simplify the environment adopting a unique seasonal phase for the whole time horizon. The daily number of customers interested to buy each product is the number of nodes of the corresponding social network activated by social influence. For simplicity, imagine that every day the seller makes social influence to convince the nodes to buy the products and the activated nodes are the users that will try to buy the product. The actual purchase depends on the price charged by the seller and the conversion rate curve. For simplicity, assume that a node that has bought a product in a day can buy it also the subsequent days if activated by social influence. Plot the cumulative regret.
-
-5. Design a learning pricing algorithm to maximize the cumulative revenue when there are seasonal phases and apply it, together with the algorithm to make social influence, to the case in which the activation probabilities are known. The number of customers interested to buy each product is the number of nodes of the corresponding social network activated by social influence, as in the previous step. Plot the cumulative regret.
-
-6. Plot the cumulative regret in the case the seller needs to learn both the activation probabilities and conversion rate curves simultaneously .
