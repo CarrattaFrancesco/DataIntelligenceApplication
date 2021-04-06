@@ -5,7 +5,7 @@ Consider the scenario in which advertisement is used to attract users on an ecom
 ## Environment. 
 Imagine a consumable item (for which we have an infinite number of units) and two binary features. Imagine three classes of customers C1, C2, C3, each corresponding to a subspace of the features’ space. Each customers’ class is characterized by:
 a stochastic number of daily clicks of new users (i.e., that have never clicked before these ads) as a function depending on the bid;
-a daily stochastic cost per click as a function of the bid;
+a stochastic cost per click as a function of the bid;
 a conversion rate function providing the probability that a user will buy the item given a price;
 a distribution probability over the number of times the user will come back to the ecommerce website to buy that item by 30 days after the first purchase (and simulate such visits in future).
 Every price available is associated with a margin obtained by the sale that is known beforehand. Do not need to simulate the functioning of the auctions and the other advertisers.
