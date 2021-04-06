@@ -1,0 +1,25 @@
+The main problem with the first VIDEOGAME idea is that we need a CONSUMABLE item, that
+the user is going to buy more than one time. (You can see it in the ReadME).
+
+To pass this limitation i imagined a situaztion like the following:
+
+    - Ecommerce : Online Food store with a long S  
+    - Product : WINE (features like price range, aged or not, white or red) 
+    - Customers classes : 
+                ___________________________
+                |frequent |   casual      |
+                |_________|_______________|
+                |         |               |
+     wealthy    |   X     |    X          |
+                |_________|_______________|
+                |         |               |
+     "smart"    |   X     |               |
+                |_________|_______________|
+
+    We can also consider all the 4 combinations, but if we want to stick to 
+    the assignment we have to choose 3. 
+
+    - Number of clicks: clicks(bid) = Normal_distr(mean = x(costumer_class), variance = ?)
+    - Cost_per_click as function of bid : No idea 
+    - Probability of coming back to buy :
+    
