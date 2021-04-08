@@ -19,10 +19,10 @@ class Customer():
 
     def comeback_probability(self, times):
         #Return a probability of coming back for the user based on the class, extreme points are default.
-        if times <= 1: return 1.0
-        if times > 14 and < 25 return 0.05
-        if times >= 25 return 0.00
-        return self.comeback_vector[times - 2]
+        if times < 1:
+            raise Exception("Value Error: Price can't be zero or negative.")
+        if times >= 20: return 0.00
+        return self.comeback_vector[times - 1]
 
     def conversion_rate(self, price):
         #Calculate the conversion rate given the conversion rate matrix linearly interpolating the points.
@@ -34,10 +34,12 @@ class Customer():
         while self.conversion_rate_matrix[i][0] < price :
             i+=1
         
+        #Value calculation
         xa = self.conversion_rate_matrix[i-1][0]
         xb = self.conversion_rate_matrix[i][0]
         ya = self.conversion_rate_matrix[i-1][1]
         yb = self.conversion_rate_matrix[i][1]
 
+        #Linear Iterpolation
         return (((price - xb)/(xa -xb)) * ya) - (((price - xa)/(xa -xb)) * yb)
 
