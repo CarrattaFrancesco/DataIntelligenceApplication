@@ -27,7 +27,7 @@ class CustomerManager():
         res = self.__get_by_id(class_id).clicks(bid)
         if not noise : 
             return res 
-        return  np.clip(res + np.random.normal(0, res * self.noise_variance ), a_min = 0, a_max = None)
+        return  np.floor( np.clip(res + np.random.normal(0, res * self.noise_variance ), a_min = 0, a_max = None) )
 
     def cost_per_click(self, class_id, bid, noise = True): 
         res = self.__get_by_id(class_id).cost_per_click(bid) 
@@ -45,6 +45,12 @@ class CustomerManager():
         res = self.__get_by_id(class_id).conversion_rate(price)
         if not noise : 
             return res 
-        return np.clip( res + np.random.normal(0, sres * self.noise_variance ), a_min = 0, a_max = 1)
+        return np.clip( res + np.random.normal(0, res * self.noise_variance ), a_min = 0, a_max = 1)
 
 
+    def sold_items(self, class_id, bid, price, noise = True):
+        res = self.__get_by_id(class_id).sold_items(bid = bid, price = price)
+        if not noise :
+            return res 
+        return np.clip( res + np.random.normal(0, res * self.noise_variance ), a_min = 0, a_max = None)
+    

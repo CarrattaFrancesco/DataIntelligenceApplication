@@ -8,10 +8,11 @@ class Customer():
         self.slope_coefficient = slope_coefficient
         self.conversion_rate_matrix = conversion_rate_matrix
         self.comeback_vector = comeback_vector
+        self.expected_returns = self.__expected_returns()
     
     def clicks(self, bid):
         #Calculates the clicks as function of the bid for this customer type
-        return self.clicks_coefficient * (1 - np.exp(-self.slope_coefficient*bid)) 
+        return np.floor( self.clicks_coefficient * (1 - np.exp(-self.slope_coefficient*bid)) )
 
     def cost_per_click(self, bid): 
         #Computes the cost per click as 
@@ -43,3 +44,12 @@ class Customer():
         #Linear Iterpolation
         return (((price - xb)/(xa -xb)) * ya) - (((price - xa)/(xa -xb)) * yb)
 
+    def sold_items(self, bid, price):
+        return self.clicks(bid) * self.conversion_rate(price) * self.expected_returns
+
+    
+    def __expected_returns(self):
+        e = 0
+        for i in range(1, 20):
+            e += self.comeback_probability(i) * i
+        return e
