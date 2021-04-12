@@ -16,7 +16,7 @@ class Customer():
 
     def cost_per_click(self, bid): 
         #Computes the cost per click as 
-        return bid / self.clicks(bid)
+        return bid / self.clicks(bid) 
 
     def comeback_probability(self, times):
         #Return a probability of coming back for the user based on the class, extreme points are default.
@@ -32,7 +32,7 @@ class Customer():
             raise Exception("Value Error: Price can't be zero or negative.")
         
         i = 0
-        while self.conversion_rate_matrix[i][0] < price :
+        while self.conversion_rate_matrix[i][0] < price and i < len(self.conversion_rate_matrix)-1:
             i+=1
         
         #Value calculation
