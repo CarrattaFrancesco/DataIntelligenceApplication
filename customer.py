@@ -52,5 +52,6 @@ class Customer():
     def __expected_returns(self):
         e = 0
         for i in range(1, 20):
-            e += self.comeback_probability(i) * i
+            ##Computes the times that this customer type will come back on average
+            e += self.comeback_probability(i) * 1  
         return e
