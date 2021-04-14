@@ -12,11 +12,11 @@ class Learner_1():
         
 
     def fit(self,X,Y):
-        kernel = C(self.theta, (1e-03, 1e3)) * RBF(1, (1e-3, 1e3)) 
+        kernel = C(self.theta, (1e-05, 1e5)) * RBF(1, (1e-5, 1e5)) 
         gp = GaussianProcessRegressor(kernel = kernel, alpha = self.noise_std**2, normalize_y = False, n_restarts_optimizer = 10)
         gp.fit(X,Y)
         self.model = gp
 
-    def predict(self,X):
-        return self.model.predict(X)
+    def predict(self,X, return_std = False):
+        return self.model.predict(X, return_std = return_std)
 

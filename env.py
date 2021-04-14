@@ -33,4 +33,9 @@ class Env_1():
         
         return dic
 
+    '''
+    Only for testing purpose
+    '''
+    def roundClicks(self, bid, c_id):
+        return self.cManager.clicks(class_id = c_id, bid = bid)
    
