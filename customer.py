@@ -46,7 +46,7 @@ class Customer():
         return (((price - xb)/(xa -xb)) * ya) - (((price - xa)/(xa -xb)) * yb)
 
     def sold_items(self, bid, price):
-        return self.clicks(bid) * self.conversion_rate(price) * self.expected_returns
+        return np.clip(self.clicks(bid) * self.conversion_rate(price) * self.expected_returns, 0, None)
 
     
     def __expected_returns(self):
