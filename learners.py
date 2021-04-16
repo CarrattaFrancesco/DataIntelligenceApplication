@@ -144,15 +144,16 @@ class GP_Learner():
         self.error.append(mse)
 
         #Exploration part
-        '''rnd_res = np.array([np.random.choice(bids), np.random.choice(bids), np.random.choice(bids), np.random.choice(prices)])
+        rnd_res = np.array([np.random.choice(bids), np.random.choice(bids), np.random.choice(bids), np.random.choice(prices)])
         
-        if np.random.uniform() < 1000/(self.y_pred.size)**2 or self.y_pred.size < 100 :
+        if np.random.uniform() < 1000/((self.y_pred.size)**2) or self.y_pred.size < 100 :
             return rnd_res[:3] , rnd_res[3]
-        '''
+       
         #Exploitation
         x0 = np.array([np.random.choice(bids), np.random.choice(bids), np.random.choice(bids), np.random.choice(prices)])
-        self.opt_res = opt.minimize(self.objective, x0, method = 'Powell').x
-        
+
+        self.opt_res = opt.minimize(self.objective, x0, method = 'Powell').x  
+
         for i in range(4):
             self.opt_res[i] = np.floor(self.opt_res[i])
 
@@ -179,6 +180,26 @@ class GP_Learner():
         res = self.revenue.predict(xs)
 
         return -res[0]
+
+    def objectiveMin(self, x):
+        bids = x[:3]
+        price = x[3]
+
+        bids_values = np.linspace(1,10,10)
+        price_values = np.linspace(3,15,13)
+
+        #Checks integrity
+        if price <= 0 or price > 15 : return 0.0 
+        if any(b < 1 or b > 10 for b in bids): return 0.0
+
+        #Data to predict
+        x1 = np.array([np.random.choice(bids_values), np.random.choice(bids_values), np.random.choice(bids_values), np.random.choice(price_values)])
+    
+        xs = np.vstack((x, x1))
+
+        res = self.revenue.predict(xs)
+
+        return res[0]
         
 
 
