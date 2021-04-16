@@ -1,3 +1,6 @@
 1) Indagare i negative sold items
 2) Sistemare GP_Learner
 3) experiment 1 : perchè ? 
+
+
+nell experiment 2 quando si aggiunge il regret dovrebbe essere fatto senza noise suelle optimal
