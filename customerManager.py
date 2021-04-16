@@ -54,10 +54,18 @@ class CustomerManager():
             return res 
         return np.clip( res + np.random.normal(0, abs(res * self.noise_variance) ), a_min = 0, a_max = None)
     
-
+    '''
     def revenue(self, bids, price):
         revenue = []
         for c in self.classes:
             c_id = int(c["class_id"])
             revenue.append((self.sold_items(c_id, bids[c_id], price) * price) - (self.clicks(c_id, bids[c_id]) * self.cost_per_click(c_id, bids[c_id])))
+        return revenue
+    '''
+    
+    def revenue(self, bids, price,noise=True):
+        revenue = []
+        for c in self.classes:
+            c_id = int(c["class_id"])
+            revenue.append((self.sold_items(c_id, bids[c_id], price,noise=noise) * price) - (self.clicks(c_id, bids[c_id],noise=noise) * self.cost_per_click(c_id, bids[c_id],noise=noise)))
         return revenue
