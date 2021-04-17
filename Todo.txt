@@ -1,5 +1,6 @@
 1 DONE) Indagare i negative sold items
 2 DONE) Sistemare GP_Learner
 3 DONE) experiment 1 : perchè ? 
-4 DONE) DEnoising Regret experiment 2
+4 DONE) Denoising Regret experiment 2
 
+5) FIX THE REVENEU
