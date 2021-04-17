@@ -1,6 +1,5 @@
-1) Indagare i negative sold items
-2) Sistemare GP_Learner
-3) experiment 1 : perchè ? 
+1 DONE) Indagare i negative sold items
+2 DONE) Sistemare GP_Learner
+3 DONE) experiment 1 : perchè ? 
+4 DONE) DEnoising Regret experiment 2
 
-
-nell experiment 2 quando si aggiunge il regret dovrebbe essere fatto senza noise suelle optimal

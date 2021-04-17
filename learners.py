@@ -113,21 +113,19 @@ class GP_Learner():
         self.kernel = C(theta, (1e-2, 1e2)) * RBF(1, (1e-2, 1e2)) 
         self.revenue = GaussianProcessRegressor(kernel = self.kernel, alpha = noise_std**2, normalize_y = False, n_restarts_optimizer = 3)
         
-        self.revenues_observed  = np.zeros(1)
+        self.y_obs  = np.zeros(1)
         self.x_obs = np.zeros(4)
-        self.opt_res = np.array([1.0, 1.0, 1.0, 4.5])
-        self.error = []
+        self.opt_res = np.zeros(4)
+        self.errors = []
         
 
-    def fit(self, bids, price, revenue):
+    def fit(self, x, y):
         
-        self.revenues_observed = np.append(self.revenues_observed, revenue)
-
-        new_x_obs = np.append([], [bids[0],bids[1],bids[2],price])
-        self.x_obs = np.vstack((self.x_obs, new_x_obs))
+        self.y_obs = np.append(self.y_obs, y)
+        self.x_obs = np.vstack((self.x_obs, x))
 
         X = self.x_obs
-        Y = self.revenues_observed.ravel()
+        Y = self.y_obs.ravel()
         
         if(X.shape[0] >= 2):
             self.revenue.fit(X, Y)
@@ -138,14 +136,14 @@ class GP_Learner():
         prices = np.linspace(3,15,13)
 
         self.y_pred, sigma = self.revenue.predict(self.x_obs, return_std=True)
-        mse = sum((self.y_pred - self.revenues_observed) ** 2) / self.y_pred.size
-        self.error.append(mse)
+        mse = sum((self.y_pred - self.y_obs) ** 2) / self.y_pred.size
+        self.errors.append(mse)
 
         #Exploration part
         if np.random.uniform() < 1000/((self.y_pred.size)**2) and self.y_pred.size < 100:
             rnd_res = np.array([np.random.choice(bids), np.random.choice(bids), np.random.choice(bids), np.random.choice(prices)])
             return rnd_res[:3], rnd_res[3]
-       
+
         #Exploitation
         x0 = np.array([np.random.choice(bids), np.random.choice(bids), np.random.choice(bids), np.random.choice(prices)])
 
@@ -155,9 +153,17 @@ class GP_Learner():
             self.opt_res = x
         
         for i in range(4):
-            self.opt_res[i] = np.floor(self.opt_res[i])
+            self.opt_res[i] = round(self.opt_res[i])
 
-        
+        #Avoid convergence in suboptimal points, explore close price set
+        if  np.random.uniform() < 0.02 and self.y_pred.size > 100:
+            
+            return (
+               [np.clip(self.opt_res[0] + np.random.choice([-1,0, 1]), 1 ,10),
+                np.clip(self.opt_res[1] + np.random.choice([-1,0, 1]), 1 ,10),
+                np.clip(self.opt_res[2] + np.random.choice([-1,0, 1]), 1 ,10)],
+                np.clip(self.opt_res[3] + np.random.choice([-1,0, 1]), 3 ,15)
+            )
 
         return (self.opt_res[:3], self.opt_res[3])  
         
