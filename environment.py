@@ -10,4 +10,9 @@ class Environment():
         #return an array (Uc1, Uc2, Uc3)
         return self.cManager.revenue(bids, price, noise= noise)
 
+class EnvironmentSingleClass(Environment):
     
+
+    def round(self,bids,price,c_id, noise = True):
+        #return an array (Uc1, Uc2, Uc3)
+        return self.cManager.revenueSingleClass(bids, price,c_id, noise= noise)
