@@ -3,4 +3,5 @@
 3 DONE) experiment 1 : perchè ? 
 4 DONE) Denoising Regret experiment 2
 
-5) FIX THE REVENEU
+5) Fix UCB learner, should converge at same result of TS 
+6) Fix variance of TS. put it high and constant after the first datapoint (find out how to establisha  good value?  25% ?)
