@@ -12,6 +12,6 @@ class Environment():
 
 # enviroment that take in consideration just one class
 class EnvironmentSingleClass(Environment):
-    def round(self,bids,price,c_id, noise = True):
+    def round(self,bid,price,c_id, noise = True):
         #return an array (Uc1, Uc2, Uc3)
-        return self.cManager.revenueSingleClass(bids, price,c_id, noise= noise)
+        return self.cManager.revenueSingleClass(bid, price,c_id, noise= noise)

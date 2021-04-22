@@ -61,5 +61,5 @@ class CustomerManager():
             revenue.append((self.sold_items(c_id, bids[c_id], price,noise=noise) * price) - (self.clicks(c_id, bids[c_id],noise=noise) * self.cost_per_click(c_id, bids[c_id],noise=noise)))
         return revenue
 
-    def revenueSingleClass(self,bids,price,c_id,noise=True):
-        return (self.sold_items(c_id, bids[c_id], price,noise=noise) * price) - (self.clicks(c_id, bids[c_id],noise=noise) * self.cost_per_click(c_id, bids[c_id],noise=noise))
+    def revenueSingleClass(self,bid,price,c_id,noise=True):
+        return (self.sold_items(c_id, bid, price,noise=noise) * price) - (self.clicks(c_id, bid, noise=noise) * self.cost_per_click(c_id, bid,noise=noise))
