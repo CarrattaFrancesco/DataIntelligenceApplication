@@ -1,7 +1,7 @@
 {   "classes": [
         {
         "class_id" : 0,
-        "name" : "Pentola D'oro",
+        "name" : "Frequent_Welthy",
         "wealthy" : 1,
         "frequent": 1,
         "clicks_coefficient" : 150,
@@ -24,7 +24,7 @@
         },
         {
         "class_id" : 1, 
-        "name" : "Ricco Da conquistare",
+        "name" : "Occasional_Welthy",
         "wealthy" : 1,
         "frequent": 0,
         "clicks_coefficient" : 100,
@@ -48,7 +48,7 @@
         }, 
         {
         "class_id" : 2,
-        "name" : "Noi",
+        "name" : "Frequent_LowBudget",
         "wealthy" : 0,
         "frequent": 1,
         "clicks_coefficient" : 170,
