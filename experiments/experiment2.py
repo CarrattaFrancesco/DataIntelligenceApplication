@@ -46,7 +46,7 @@ class Experiment2:
                 self.price = 4.5 
             
             
-            self.sols.append((self.bids ,self.price))
+            self.sols.append((self.bids, self.price))
             self.regrets.append(sum(self.env.round(self.opt_bids, self.opt_price, noise = False)) - outcome)
 
     def showRegret(self):
@@ -68,3 +68,6 @@ class Experiment2:
         plt.plot(X, self.gp_learner.errors , 'r')
 
         plt.show()
+
+    def foundSolution(self):
+        return self.sols[-1]

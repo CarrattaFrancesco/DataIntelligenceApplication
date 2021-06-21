@@ -1,3 +1,4 @@
+from os import times
 import numpy as np
 from scipy.special import erfc
 from learners.learner import Learner
@@ -12,7 +13,7 @@ class TS_Learner(Learner):
         self.normal_parameters = np.zeros((self.n_arms, 2))
 
     def pull_arm(self):
-        if self.t < (2*self.n_arms): return (self.t % self.n_arms)
+        if self.t < (self.n_arms): return (self.t)
 
         #Safety constraint
         #Alternative implementation safety constraints using MATH         
@@ -32,4 +33,4 @@ class TS_Learner(Learner):
         #Empirical mean
         self.normal_parameters[pulled_arm, 0] = (self.normal_parameters[pulled_arm, 0] * (times_pulled - 1) + reward ) / times_pulled
         #Empirical std
-        self.normal_parameters[pulled_arm, 1] = np.sqrt(sum((self.normal_parameters[pulled_arm, 0] - self.rewards_per_arm[pulled_arm])**2)/times_pulled**2)
+        self.normal_parameters[pulled_arm, 1] = np.sqrt(sum((self.normal_parameters[pulled_arm, 0] - self.rewards_per_arm[pulled_arm])**2)/times_pulled**2) + 0.5/times_pulled
