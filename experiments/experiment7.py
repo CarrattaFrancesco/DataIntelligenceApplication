@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 
 opt_bids = [3.8622484787564275 , 2.1216094606111944,  2.347134281066495]
-opt_price = 6.321089806558111
+opt_price =[6.321089806558111, 6.321089806558111,6.321089806558111]
 
 class Experiment7:
 
@@ -25,8 +25,8 @@ class Experiment7:
         self.regrets =[[],[],[]]
         self.sols = [[],[],[]] #Tryed Solutions
 
-        self.bids_to_show = [[],[],[]]
-        self.prices_to_show = [[],[],[]]
+        self.bids_to_show = []
+        self.prices_to_show = []
         #Object Initialization 
         self.env = EnvironmentSingleClass(noise_variance= 0.05)
         self.ts_learners= [TS_Learner(n_arms = n_arms),TS_Learner(n_arms = n_arms),TS_Learner(n_arms = n_arms)]
@@ -41,14 +41,14 @@ class Experiment7:
                 self.bids[c] = self.bids_space[arm_indx % self.n_bids]
                 self.prices[c] = self.price_space[int(np.floor(arm_indx / self.n_bids))]
 
-                self.bids_to_show[c].append(self.bids[c])
-                self.prices_to_show[c].append(self.prices[c])
+                self.bids_to_show.append(self.bids)
+                self.prices_to_show.append(self.prices)
 
                 #Storing found solution
                 self.sols[c].append([self.bids[c],self.prices[c]])
                 reward = self.env.round(self.bids[c],self.prices[c],c_id = c)
                 self.ts_learners[c].update(arm_indx, reward)
-                self.regrets[c].append(self.env.round(opt_bids[c], opt_price,c, noise = False) - reward)
+                self.regrets[c].append(self.env.round(opt_bids[c], opt_price[c],c, noise = False) - reward)
 
     def showRegret(self):
         colors = ['r','g','b']
@@ -61,8 +61,8 @@ class Experiment7:
             plt.legend(["Class_"+str(c) ])
             plt.show()
 
-    def show_bids_per_class(self,c):
-        bids = np.array(self.bids_to_show[c]) 
+    def show_bids_per_class(self):
+        bids = np.array(self.bids_to_show) 
 
         fig, axs = plt.subplots(3)
         fig.suptitle('Estimated bids with TS')
@@ -72,8 +72,8 @@ class Experiment7:
             axs[i].set(ylabel="Class "+ str(i))
         fig.legend(["Bids","Optimal Bids"])
 
-    def show_prices_per_class(self,c):
-        prices = np.array(self.prices_to_show[c]) 
+    def show_prices_per_class(self):
+        prices = np.array(self.prices_to_show) 
 
         fig, axs = plt.subplots(3)
         fig.suptitle('Estimated bids with TS')
