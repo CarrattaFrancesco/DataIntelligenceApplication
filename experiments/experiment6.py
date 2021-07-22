@@ -40,7 +40,7 @@ class Experiment6:
             self.sols.append([bid,price])
             reward = self.env.round(bids,price)
 
-            self.bids.append(bids)
+            self.bids.append(bid)
             self.prices.append(price)
 
             #Updating
@@ -59,14 +59,16 @@ class Experiment6:
     def show_bids_per_class(self):
         bids = np.array(self.bids) 
 
-
-        fig, axs = plt.subplots(3)
-        fig.suptitle('Estimated bids with TS')
-        for i in range(3):
-            axs[i].plot(bids[:,i],'y')
-            axs[i].hlines(opt_bids[i], 0, 365, 'g', linestyles='dashed')
-            axs[i].set(ylabel="Class "+ str(i))
-        fig.legend(["Bids","Optimal Bids"])
+        plt.figure(0)
+        plt.xlabel("t")
+        plt.ylabel("Bid")
+        plt.title("Estimated bid with TS")
+        plt.plot(bids , 'r')
+        plt.hlines(opt_bids[0] , 0, 365, 'y', linestyles='dashed')
+        plt.hlines(opt_bids[1] , 0, 365, 'b', linestyles='dashed')
+        plt.hlines(opt_bids[2] , 0, 365, 'g', linestyles='dashed')
+        plt.legend(["Bids","Optimal Bids Class 0","Optimal Bids Class 1","Optimal Bids Class 2" ])
+        plt.show()
     
     def show_prices(self):
         prices = np.array(self.prices) 
