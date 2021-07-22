@@ -19,6 +19,7 @@ class Experiment5:
         self.ts_rewards_per_experiment = np.ndarray([])
         self.sols = []
         self.regret = []
+        self.bids = []
 
         #Environment and Learner Creation
         self.env = Environment(noise_variance= 0.05)
@@ -31,6 +32,7 @@ class Experiment5:
             bid = self.bids_space[bid_indx]
             bids = [bid,bid,bid]
             self.sols.append(bid)
+            self.bids.append(bids)
             reward = self.env.round(bids,self.price)
             self.ts_learner.update(bid_indx, sum(reward))
             self.regret.append(sum(self.env.round(opt_bids, opt_price, noise = False)) - sum(reward))
@@ -42,3 +44,16 @@ class Experiment5:
         plt.plot(self.regret , 'r')
         plt.legend(["TS" ])
         plt.show()
+
+    
+    def show_bids_per_class(self):
+        bids = np.array(self.bids) 
+
+
+        fig, axs = plt.subplots(3)
+        fig.suptitle('Estimated bids with TS')
+        for i in range(3):
+            axs[i].plot(bids[:,i],'y')
+            axs[i].hlines(opt_bids[i], 0, 365, 'g', linestyles='dashed')
+            axs[i].set(ylabel="Class "+ str(i))
+        fig.legend(["Bids","Optimal Bids"])

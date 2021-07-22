@@ -25,6 +25,8 @@ class Experiment7:
         self.regrets =[[],[],[]]
         self.sols = [[],[],[]] #Tryed Solutions
 
+        self.bids_to_show = [[],[],[]]
+        self.prices_to_show = [[],[],[]]
         #Object Initialization 
         self.env = EnvironmentSingleClass(noise_variance= 0.05)
         self.ts_learners= [TS_Learner(n_arms = n_arms),TS_Learner(n_arms = n_arms),TS_Learner(n_arms = n_arms)]
@@ -38,6 +40,10 @@ class Experiment7:
                 #Arm to bid, price conversion 
                 self.bids[c] = self.bids_space[arm_indx % self.n_bids]
                 self.prices[c] = self.price_space[int(np.floor(arm_indx / self.n_bids))]
+
+                self.bids_to_show[c].append(self.bids[c])
+                self.prices_to_show[c].append(self.prices[c])
+
                 #Storing found solution
                 self.sols[c].append([self.bids[c],self.prices[c]])
                 reward = self.env.round(self.bids[c],self.prices[c],c_id = c)
@@ -54,3 +60,25 @@ class Experiment7:
             plt.plot(self.regrets[c] , colors[c])
             plt.legend(["Class_"+str(c) ])
             plt.show()
+
+    def show_bids_per_class(self,c):
+        bids = np.array(self.bids_to_show[c]) 
+
+        fig, axs = plt.subplots(3)
+        fig.suptitle('Estimated bids with TS')
+        for i in range(3):
+            axs[i].plot(bids[:,i],'y')
+            axs[i].hlines(opt_bids[i], 0, 365, 'g', linestyles='dashed')
+            axs[i].set(ylabel="Class "+ str(i))
+        fig.legend(["Bids","Optimal Bids"])
+
+    def show_prices_per_class(self,c):
+        prices = np.array(self.prices_to_show[c]) 
+
+        fig, axs = plt.subplots(3)
+        fig.suptitle('Estimated bids with TS')
+        for i in range(3):
+            axs[i].plot(prices[:,i],'y')
+            axs[i].hlines(opt_price[i], 0, 365, 'g', linestyles='dashed')
+            axs[i].set(ylabel="Class "+ str(i))
+        fig.legend(["Price","Optimal Price"])

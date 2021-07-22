@@ -21,6 +21,9 @@ class Experiment6:
         self.bids_space = np.linspace(1.0, 10.0,self.n_bids)
         self.price_space = np.linspace(3.0, 15.0, n_prices)
 
+        self.bids = []
+        self.prices = []
+
         #Object Initialization
         self.env = Environment(noise_variance= 0.05)
         self.ts_learner = TS_Learner(n_arms = n_arms)
@@ -36,6 +39,10 @@ class Experiment6:
             bids = [bid,bid,bid]
             self.sols.append([bid,price])
             reward = self.env.round(bids,price)
+
+            self.bids.append(bids)
+            self.prices.append(price)
+
             #Updating
             self.ts_learner.update(arm_indx, sum(reward))
 
@@ -47,4 +54,27 @@ class Experiment6:
         plt.ylabel("Regret")
         plt.plot(self.regret , 'r')
         plt.legend(["TS" ])
+        plt.show()
+
+    def show_bids_per_class(self):
+        bids = np.array(self.bids) 
+
+
+        fig, axs = plt.subplots(3)
+        fig.suptitle('Estimated bids with TS')
+        for i in range(3):
+            axs[i].plot(bids[:,i],'y')
+            axs[i].hlines(opt_bids[i], 0, 365, 'g', linestyles='dashed')
+            axs[i].set(ylabel="Class "+ str(i))
+        fig.legend(["Bids","Optimal Bids"])
+    
+    def show_prices(self):
+        prices = np.array(self.prices) 
+
+        plt.figure(0)
+        plt.xlabel("t")
+        plt.ylabel("prices")
+        plt.plot(prices , 'y')
+        plt.hlines(opt_price, 0, 365, 'g', linestyles='dashed')
+        plt.legend(["Price","Optimal Price" ])
         plt.show()
