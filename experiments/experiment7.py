@@ -25,8 +25,8 @@ class Experiment7:
         self.regrets =[[],[],[]]
         self.sols = [[],[],[]] #Tryed Solutions
 
-        self.bids_to_show = []
-        self.prices_to_show = []
+        self.bids_to_show = [[],[],[]]
+        self.prices_to_show = [[],[],[]]
         #Object Initialization 
         self.env = EnvironmentSingleClass(noise_variance= 0.05)
         self.ts_learners= [TS_Learner(n_arms = n_arms),TS_Learner(n_arms = n_arms),TS_Learner(n_arms = n_arms)]
@@ -41,14 +41,14 @@ class Experiment7:
                 self.bids[c] = self.bids_space[arm_indx % self.n_bids]
                 self.prices[c] = self.price_space[int(np.floor(arm_indx / self.n_bids))]
 
-                self.bids_to_show.append(self.bids)
-                self.prices_to_show.append(self.prices)
-
                 #Storing found solution
                 self.sols[c].append([self.bids[c],self.prices[c]])
                 reward = self.env.round(self.bids[c],self.prices[c],c_id = c)
                 self.ts_learners[c].update(arm_indx, reward)
                 self.regrets[c].append(self.env.round(opt_bids[c], opt_price[c],c, noise = False) - reward)
+                self.bids_to_show[c].append(self.bids[c])
+                self.prices_to_show[c].append(self.prices[c])
+            
 
     def showRegret(self):
         colors = ['r','g','b']
@@ -63,11 +63,10 @@ class Experiment7:
 
     def show_bids_per_class(self):
         bids = np.array(self.bids_to_show) 
-
         fig, axs = plt.subplots(3)
         fig.suptitle('Estimated bids with TS')
         for i in range(3):
-            axs[i].plot(bids[:,i],'y')
+            axs[i].plot(bids[i],'y')
             axs[i].hlines(opt_bids[i], 0, 365, 'g', linestyles='dashed')
             axs[i].set(ylabel="Class "+ str(i))
         fig.legend(["Bids","Optimal Bids"])
@@ -76,9 +75,9 @@ class Experiment7:
         prices = np.array(self.prices_to_show) 
 
         fig, axs = plt.subplots(3)
-        fig.suptitle('Estimated bids with TS')
+        fig.suptitle('Estimated prices with TS')
         for i in range(3):
-            axs[i].plot(prices[:,i],'y')
+            axs[i].plot(prices[i],'y')
             axs[i].hlines(opt_price[i], 0, 365, 'g', linestyles='dashed')
             axs[i].set(ylabel="Class "+ str(i))
         fig.legend(["Price","Optimal Price"])
